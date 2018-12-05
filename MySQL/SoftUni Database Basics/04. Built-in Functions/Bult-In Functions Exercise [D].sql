@@ -66,7 +66,28 @@ ORDER BY mix;
 #Exercise 12
 USE diablo;
 
+SELECT name, DATE_FORMAT(start, '%Y-%m-%d') FROM games
+WHERE YEAR(start) IN (2011, 2012)
+ORDER BY start, name
+LIMIT 50;
 
+#Exercise 13
+SELECT 	user_name,
+		REVERSE(SUBSTRING(REVERSE(email) FROM 1 FOR (LOCATE('@', REVERSE(email))-1))) AS `Email Provider`
+FROM users
+ORDER BY `Email Provider`, user_name;
 
+#another solurtion
+SELECT 
+    `user_name`,
+    SUBSTRING_INDEX(`email`, '@', - 1) AS 'Email Provider'
+FROM
+    `users`
+ORDER BY `Email Provider` , `user_name`;
 
+#Exercise 14
+SELECT user_name, ip_address FROM users
+WHERE ip_address LIKE '___.1%.%.___'
+ORDER BY user_name;
 
+#Exercise 15
