@@ -27,3 +27,46 @@ SELECT name FROM towns
 WHERE CHAR_LENGTH(name) IN (5, 6)
 ORDER BY name ASC;
 
+#Exercise 6
+SELECT town_id, name FROM towns
+WHERE LEFT(LOWER(name), 1) IN ('M','K','B','E')
+ORDER BY name ASC;
+
+#Exercise 7
+SELECT town_id, name FROM towns
+WHERE LEFT(LOWER(name), 1) NOT IN ('r','b','d')
+ORDER BY name ASC;
+
+#Exercise 8
+CREATE VIEW v_employees_hired_after_2000 AS
+SELECT first_name, last_name FROM employees
+WHERE YEAR(hire_date) > 2000;
+
+#Exercise 9
+SELECT first_name, last_name FROM employees
+WHERE char_length(last_name) = 5;
+
+#Exercise 10
+USE geography;
+
+SELECT country_name, iso_code FROM countries
+WHERE LOWER(country_name) LIKE '%a%a%a%'
+ORDER BY iso_code;
+
+#Exercise 11
+SELECT 	peak_name, 
+		river_name,
+		LOWER(CONCAT(peak_name, SUBSTRING(river_name, 2))) as mix
+		#LOWER(CONCAT(`peak_name`, SUBSTRING(`river_name`, 2))) AS 'mix'
+FROM 	peaks, 
+		rivers
+WHERE LOWER(RIGHT(peak_name, 1)) = LOWER(LEFT(river_name, 1))
+ORDER BY mix;
+
+#Exercise 12
+USE diablo;
+
+
+
+
+
