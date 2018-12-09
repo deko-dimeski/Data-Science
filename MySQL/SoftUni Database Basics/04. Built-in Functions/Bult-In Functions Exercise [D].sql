@@ -91,3 +91,25 @@ WHERE ip_address LIKE '___.1%.%.___'
 ORDER BY user_name;
 
 #Exercise 15
+SELECT name,
+	CASE
+		WHEN HOUR(start) >= 0 AND HOUR(start) < 12 THEN 'Morning'
+		WHEN HOUR(start) >= 12 AND HOUR(start) < 18 THEN 'Afternoon'
+		WHEN HOUR(start) >= 18 AND HOUR(start) < 24 THEN 'Evening'
+    END AS `Par of the Day`,
+	CASE
+		WHEN duration <= 3 THEN 'Extra Short'
+        WHEN duration > 3 AND duration <= 6 THEN 'Short'
+        WHEN duration > 6 AND duration <= 10 THEN 'Long'
+        ELSE 'Extra Long'
+	END AS `Duration`
+FROM games;
+
+#Exercise 16
+USE orders;
+
+SELECT	product_name,
+		order_date,
+		DATE_ADD(order_date, INTERVAL 3 DAY) as pay_due,
+        DATE_ADD(order_date, INTERVAL 1 MONTH) as deliver_due
+FROM orders;
