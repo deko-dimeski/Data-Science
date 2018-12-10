@@ -73,5 +73,40 @@ HAVING deposit_group = 'Troll Chest'
 ORDER BY first_letter;
 
 #Exercise 11
+SELECT	deposit_group,
+		is_deposit_expired,
+        AVG(deposit_interest) AS average_imterest
+FROM wizzard_deposits
+WHERE deposit_start_date > STR_TO_DATE('01,01,1985', '%d,%m,%Y')
+GROUP BY deposit_group, is_deposit_expired
+ORDER BY deposit_group DESC;
 
-			
+#Exercise 12 LONG
+SELECT SUM(temp_table.difference) AS sum_difference FROM 
+(SELECT	id AS host_id,
+		first_name AS host_wizard,
+		deposit_amount AS host_wizard_deposit,
+        (SELECT id FROM wizzard_deposits
+			WHERE id = host_id + 1
+		) AS guest_id,
+        (SELECT first_name FROM wizzard_deposits
+			WHERE id = host_id + 1
+		) AS guest_wizard,
+        (SELECT deposit_amount FROM wizzard_deposits
+			WHERE id = host_id + 1
+		) AS guest_wizard_deposit,
+        deposit_amount - (SELECT deposit_amount FROM wizzard_deposits
+			WHERE id = host_id + 1) AS difference
+FROM wizzard_deposits
+WHERE id != (SELECT MAX(id) FROM wizzard_deposits)) AS temp_table;
+
+
+#Exercise 12 SHORT
+SELECT SUM(t2.difference) AS sum_difference FROM 
+(SELECT deposit_amount - (SELECT deposit_amount FROM wizzard_deposits
+			WHERE id = t1.id + 1) AS difference
+FROM wizzard_deposits as t1
+WHERE id != (SELECT MAX(id) FROM wizzard_deposits)) AS t2;
+
+#Exercise 13
+
