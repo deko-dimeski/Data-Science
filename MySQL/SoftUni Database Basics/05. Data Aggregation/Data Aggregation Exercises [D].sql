@@ -109,4 +109,28 @@ FROM wizzard_deposits as t1
 WHERE id != (SELECT MAX(id) FROM wizzard_deposits)) AS t2;
 
 #Exercise 13
+USE soft_uni;
 
+SELECT department_id, MIN(salary) FROM employees
+WHERE hire_date > STR_TO_DATE('01/01/2000','%d/%m/%Y')
+GROUP BY department_id
+HAVING department_id IN (2, 5, 7)
+ORDER BY department_id;
+
+#Exercise 14
+#Note: according to the requirements we are not increasing the average but the absolute employee salary
+
+SELECT  
+	department_id,
+	IF(department_id = 1, AVG(salary) + 5000, AVG(salary)) as avg_salary
+FROM employees
+WHERE salary > 30000 AND manager_id != 42
+GROUP BY department_id
+ORDER BY department_id;
+
+#Exercise 15
+SELECT department_id, MAX(salary) as max_salary
+FROM employees
+GROUP BY department_id
+HAVING max_salary NOT BETWEEN 30000 AND 70000
+ORDER BY department_id;
