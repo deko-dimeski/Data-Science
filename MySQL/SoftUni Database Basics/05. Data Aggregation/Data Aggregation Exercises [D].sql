@@ -134,3 +134,54 @@ FROM employees
 GROUP BY department_id
 HAVING max_salary NOT BETWEEN 30000 AND 70000
 ORDER BY department_id;
+
+#Exercise 16
+SELECT COUNT(salary)
+FROM employees
+WHERE ISNULL(manager_id);
+
+#Exercise 17
+SELECT 	DISTINCT
+		department_id, 
+			(SELECT DISTINCT e2.salary 
+            FROM employees AS e2 
+            WHERE e2.department_id = e1.department_id
+            ORDER BY e2.salary DESC 
+            LIMIT 2, 1) as third_highest_salary
+FROM employees AS e1
+GROUP BY department_id
+HAVING third_highest_salary IS NOT NULL;
+
+
+#Exercise 19
+#Correct bu do not produce the same order of elements as expected within Judge 
+SELECT e3.first_name, e3.last_name, e3.department_id 
+FROM (
+	SELECT 	
+		e1.department_id,
+        e1.first_name, 
+		e1.last_name,
+        e1.salary,
+		(
+        SELECT AVG(e2.salary) as temp
+		FROM employees AS e2
+		WHERE e2.department_id = e1.department_id
+		) as avg_salary
+	FROM employees as e1
+) as e3
+WHERE e3.salary > e3.avg_salary
+ORDER BY e3.department_id ASC, e3.salary DESC
+LIMIT 10;
+
+
+
+
+#Exercise 19
+SELECT department_id, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department_id
+ORDER BY department_id;
+
+
+
+
